@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lecturer{% endblock %}
+
+{% block body %}
+    <h1>Lecturer</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ lecturer.id }}</td>
+            </tr>
+            <tr>
+                <th>LecID</th>
+                <td>{{ lecturer.lecID }}</td>
+            </tr>
+            <tr>
+                <th>LecName</th>
+                <td>{{ lecturer.lecName }}</td>
+            </tr>
+            <tr>
+                <th>DOB</th>
+                <td>{{ lecturer.DOB ? lecturer.DOB|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ lecturer.Image }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_lecturer_index') }}">back to list</a>
+
+    <a href="{{ path('app_lecturer_edit', {'id': lecturer.id}) }}">edit</a>
+
+    {{ include('lecturer/_delete_form.html.twig') }}
+{% endblock %}
