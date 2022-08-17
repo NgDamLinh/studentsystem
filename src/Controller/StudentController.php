@@ -4,23 +4,38 @@ namespace App\Controller;
 
 use App\Entity\Student;
 use App\Form\StudentType;
-use Symfony\Component\Routing\Route;
+
 use App\Repository\StudentRepository;
 use App\Security\UserAuthenticatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/student')]
 class StudentController extends AbstractController
 {
-    #[Route('/', name: 'app_student_index', methods: ['GET'])]
-    public function index(StudentRepository $studentRepository): Response
-    {
-        return $this->render('student/index.html.twig', [
-            'students' => $studentRepository->findAll(),
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/index', name: 'app_student_index')]
+    public function bookIndex (StudentRepository $studentRepository) {
+        $students = $studentRepository->sortBookByIdDesc();
+        return $this->render('student/index.html.twig',
+            [
+                'students' => $students
+            ]);
+  }
+
+  #[IsGranted('ROLE_USER')]
+  #[Route('/list', name: 'app_student_list')]
+  public function studentList () {
+    $books = $this->getDoctrine()->getRepository(Book::class)->findAll();
+    $session = new Session();
+    $session->set('search', false);
+    return $this->render('student/list.html.twig',
+        [
+            'students' => $students
         ]);
-    }
+  }
 
     #[Route('/new', name: 'app_student_new', methods: ['GET', 'POST'])]
     public function new(Request $request, StudentRepository $studentRepository): Response
@@ -74,5 +89,18 @@ class StudentController extends AbstractController
 
         return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
     }
-    
+    #[IsGranted('ROLE_USER')]
+    #[Route('/search', name: 'app_search_book')]
+    public function searchStudent(StudentRepository $studentRepository, Request $request) {
+        $students = $studentRepository->searchStudent($request->get('keyword'));
+        if ($books == null) {
+          $this->addFlash("Warning", "No student found !");
+        }
+        $session = $request->getSession();
+        $session->set('search', true);
+        return $this->render('student/list.html.twig', 
+        [
+            'students' => $students,
+        ]);
+    }
 }

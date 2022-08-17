@@ -21,24 +21,20 @@
 		{% block header %}
 			<div
 				class="container col-10 mt-3">
+				{% if is_granted('ROLE_ADMIN') %}
 					<ul class="nav justify-content-center bg-warning">
 						<li class="nav-item h1">
-							<a class="nav-link text-danger" href="{{ path('home')}}">Home</a>
+							<a class="nav-link text-danger" href="{{ path('app_home')}}">Home</a>
 						</li>
 						<li class="nav-item h1">
 							<a class="nav-link text-danger" href="{{ path('app_student_index')}}">Student</a>
 						</li>
-						<li class="nav-item h1">
-							<a class="nav-link text-danger" href="{{ path('author_index')}}">Event</a>
-						</li>
-						<li class="nav-item h1">
-							<a class="nav-link text-danger" href="{{ path('genre_index')}}">Course</a>
-						</li>
+
                         <li class="nav-item h1">
 							<a class="nav-link text-danger" href="{{ path('app_lecturer_index')}}">Teachers</a>
 						</li>
                         <li class="nav-item h1">
-							<a class="nav-link text-danger" href="{{ path('genre_index')}}">About Us</a>
+							<a class="nav-link text-danger" href="">About Us</a>
 						</li>
 						<li class="nav-item h1">
 							<a class="nav-link text-danger" href="{{ path('app_logout')}}">Logout
@@ -52,6 +48,36 @@
 							</a>
 						</li>
 					</ul>
+					{% else %}
+					<!-- ROLE_CUSTOMER -->
+					<ul class="nav justify-content-center bg-warning">
+						<li class="nav-item h1">
+							<a class="nav-link text-danger" href="{{ path('app_home')}}">Home</a>
+						</li>
+						<li class="nav-item h1">
+							<a class="nav-link text-danger" href="{{ path('app_student_list')}}">Student</a>
+						</li>
+						<li class="nav-item h1">
+							<a class="nav-link text-danger" href="{{ path('app_lecturer_index')}}">Teachers</a>
+						</li>
+						<li class="nav-item h1">
+							<a class="nav-link text-danger" data-bs-toggle="modal" data-bs-target="#modelId">About</a>
+						</li>
+						<li class="nav-item h1">
+							<a class="nav-link text-danger" href="{{ path('app_logout')}}">Logout
+								<u>
+									<i>
+										{% if app.user != null %}
+											({{ app.user.username }})
+										{% endif %}
+									</i>
+								</u>
+							</a>
+						</li>
+					</ul>
+				{% endif %}
+
+			</div>
 			{# bs5-modal-default #}
 
 			<!-- Modal -->
