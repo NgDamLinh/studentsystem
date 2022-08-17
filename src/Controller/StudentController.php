@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Student;
 use App\Form\StudentType;
+use Symfony\Component\Routing\Route;
 use App\Repository\StudentRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Security\UserAuthenticatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/student')]
 class StudentController extends AbstractController
@@ -65,7 +66,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_student_delete', methods: ['POST'])]
-    public function delete(Request $request, Student $student, StudentRepository $studentRepository): Response
+    public function delete(Request $request, Student $student, StudentRepository $studentRepository)
     {
         if ($this->isCsrfTokenValid('delete'.$student->getId(), $request->request->get('_token'))) {
             $studentRepository->remove($student);
@@ -73,14 +74,5 @@ class StudentController extends AbstractController
 
         return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/search', name: 'search_student')]
-  public function searchStudent(StudentRepository $studentRepository, Request $request) {
-    $books = $studentRepository->searchBook($request->get('keyword'));
-    $session = $request->getSession();
-    $session->set('search', true);
-    return $this->render('student/list.html.twig', 
-    [
-        'students' => $students,
-    ]);
-  }
+    
 }
