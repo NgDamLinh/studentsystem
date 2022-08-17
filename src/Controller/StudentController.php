@@ -29,7 +29,7 @@ class StudentController extends AbstractController
   #[IsGranted('ROLE_USER')]
   #[Route('/list', name: 'app_student_list')]
   public function studentList () {
-    $books = $this->getDoctrine()->getRepository(Book::class)->findAll();
+    $students = $this->getDoctrine()->getRepository(Book::class)->findAll();
     $session = new Session();
     $session->set('search', false);
     return $this->render('student/list.html.twig',
@@ -94,7 +94,7 @@ class StudentController extends AbstractController
     #[Route('/search', name: 'app_search_book')]
     public function searchStudent(StudentRepository $studentRepository, Request $request) {
         $students = $studentRepository->searchStudent($request->get('keyword'));
-        if ($books == null) {
+        if ($students == null) {
           $this->addFlash("Warning", "No student found !");
         }
         $session = $request->getSession();
