@@ -30,7 +30,7 @@ class Lecturer
     #[ORM\OneToOne(targetEntity: Subject::class, inversedBy: 'lecturers')]
     private $SubjLec;
 
-    #[ORM\OneToMany(targetEntity: Classes::class, mappedBy: 'lecturers')]
+    #[ORM\OneToMany(targetEntity: Classes::class, inversedBy: 'lecturers')]
     private $Classes;
 
     public function __construct()

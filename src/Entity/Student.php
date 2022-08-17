@@ -33,23 +33,15 @@ class Student
     #[ORM\Column(type: 'string', length: 255)]
     private $Image;
 
-    #[ORM\OneToMany(targetEntity: Classes::class, mappedBy: 'students')]
+    #[ORM\OneToMany(targetEntity: Classes::class, inversedBy: 'students')]
     private $classId;
 
     #[ORM\ManyToMany(mappedBy: 'student', targetEntity: Mark::class)]
     private $Mark;
 
-    #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'students')]
-    private $Subject_ID;
-
-    #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'students')]
-    private $subjectID;
-
     public function __construct()
     {
         $this->Mark = new ArrayCollection();
-        $this->Subject_ID = new ArrayCollection();
-        $this->subjectID = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,30 +159,6 @@ class Student
                 $mark->setStudent(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Subject>
-     */
-    public function getSubjectID(): Collection
-    {
-        return $this->Subject_ID;
-    }
-
-    public function addSubjectID(Subject $subjectID): self
-    {
-        if (!$this->Subject_ID->contains($subjectID)) {
-            $this->Subject_ID[] = $subjectID;
-        }
-
-        return $this;
-    }
-
-    public function removeSubjectID(Subject $subjectID): self
-    {
-        $this->Subject_ID->removeElement($subjectID);
 
         return $this;
     }
