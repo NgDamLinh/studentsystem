@@ -16,7 +16,7 @@ class Mark
     #[ORM\Column(type: 'string', length: 255)]
     private $Mark;
 
-    #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'Mark')]
+    #[ORM\OneToMany(targetEntity: Student::class, mappedBy: 'Mark')]
     private $student;
 
     #[ORM\ManyToOne(targetEntity: Subject::class, inversedBy: 'marks')]
