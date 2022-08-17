@@ -21,7 +21,7 @@ class Classes
     #[ORM\Column(type: 'string', length: 255)]
     private $className;
 
-    #[ORM\ManyToMany(targetEntity: Lecturer::class, mappedBy: 'Classes')]
+    #[ORM\OneToMany(targetEntity: Lecturer::class, mappedBy: 'Classes')]
     private $lecturers;
 
     #[ORM\OneToMany(mappedBy: 'classId', targetEntity: Student::class)]

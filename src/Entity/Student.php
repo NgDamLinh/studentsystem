@@ -33,10 +33,10 @@ class Student
     #[ORM\Column(type: 'string', length: 255)]
     private $Image;
 
-    #[ORM\ManyToOne(targetEntity: Classes::class, inversedBy: 'students')]
+    #[ORM\OneToMany(targetEntity: Classes::class, inversedBy: 'students')]
     private $classId;
 
-    #[ORM\OneToMany(mappedBy: 'student', targetEntity: Mark::class)]
+    #[ORM\ManyToMany(mappedBy: 'student', targetEntity: Mark::class)]
     private $Mark;
 
     public function __construct()

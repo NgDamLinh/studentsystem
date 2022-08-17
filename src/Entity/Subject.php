@@ -24,7 +24,7 @@ class Subject
     #[ORM\ManyToMany(targetEntity: Lecturer::class, mappedBy: 'SubjLec')]
     private $lecturers;
 
-    #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Mark::class)]
+    #[ORM\ManyToMany(mappedBy: 'subject', targetEntity: Mark::class)]
     private $marks;
 
     public function __construct()

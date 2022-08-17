@@ -27,10 +27,10 @@ class Lecturer
     #[ORM\Column(type: 'string', length: 255)]
     private $Image;
 
-    #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'lecturers')]
+    #[ORM\OneToOne(targetEntity: Subject::class, inversedBy: 'lecturers')]
     private $SubjLec;
 
-    #[ORM\ManyToMany(targetEntity: Classes::class, inversedBy: 'lecturers')]
+    #[ORM\OneToMany(targetEntity: Classes::class, inversedBy: 'lecturers')]
     private $Classes;
 
     public function __construct()
