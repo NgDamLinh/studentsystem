@@ -73,4 +73,14 @@ class StudentController extends AbstractController
 
         return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/search', name: 'search_student')]
+  public function searchStudent(StudentRepository $studentRepository, Request $request) {
+    $books = $studentRepository->searchBook($request->get('keyword'));
+    $session = $request->getSession();
+    $session->set('search', true);
+    return $this->render('student/list.html.twig', 
+    [
+        'students' => $students,
+    ]);
+  }
 }
